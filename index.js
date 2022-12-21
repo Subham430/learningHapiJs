@@ -14,6 +14,12 @@ const init = async () => {
         }
     });
 
+    await server.register(baseRouter,{
+        routes:{
+            prefix:'/codelogicx'
+        }
+    });
+
     await server.start();
     console.log('Server running on %s', server.info.uri);
 };
