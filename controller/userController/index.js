@@ -4,15 +4,14 @@ const bcrypt = require('bcrypt');
 
 
 //models
-const User = require('../../models').user;
+const { User } = require('../../models');
 
 
 exports.register = async (request, h) => {
     // const t = await sequelize.transaction();
     try {
-        console.log('hello')
-        console.log(payload)
         const payload = request.payload;
+        console.log(payload)
         const salt = await bcrypt.genSalt(10);
         const HashedPassword = await bcrypt.hash(payload.password, salt);
         let user = await User.create({
