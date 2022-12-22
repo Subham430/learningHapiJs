@@ -20,7 +20,6 @@ exports.register = async (request, h) => {
             }
         });
 
-        console.log(uniqueUser)
         if (uniqueUser){
             return error({error:"email already exists"}, "Insert Unique Email", 422)(h)
         }
