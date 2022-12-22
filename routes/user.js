@@ -1,6 +1,7 @@
 const { register } = require('../controller/userController');
 const validationError = require('../helper/validationError');
 const { registerValidation } = require('../request/userValidation/userRegisterValidation');
+
 const router = [
     {
         method: 'POST',
