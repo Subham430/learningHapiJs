@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 // const sequelize = require('sequelize');
 
 //models
-const { User } = require('../../models');
+const { User, verification_code } = require('../../models');
 
 exports.register = async (request, h) => {
     // const t = await sequelize.transaction();
@@ -22,7 +22,7 @@ exports.register = async (request, h) => {
             return error({error:"email already exists"}, "Insert Unique Email", 422)(h)
         }
 
-        let user = await User.create({
+        const user = await User.create({
             firstName: payload.first_name,
             lastName: payload.last_name,
             email: payload.email,
@@ -44,6 +44,49 @@ exports.all_users_details = async (request, h) => {
         const user_details = await User.findAll();
           
         return success({user: user_details}, "all users details fetched successfully", 200)(h);
+    } catch (err) {
+        // await t.rollback();
+        return error({error: err.message})(h);
+    }
+};
+
+exports.forgot_password = async (request, h) => {
+    // const t = await sequelize.transaction();
+    try {
+        const payload = request.payload;
+
+        const findUser=await User.findOne({
+            where: {
+                email: payload.email,
+            }
+        });
+
+        if (!findUser){
+            return error({error:"email not found"}, "Insert an already registered Email", 422)(h)
+        } else {
+            const uniqueUserId=await verification_code.findOne({
+                where: {
+                    user_id: findUser.id,
+                }
+            });
+
+            const uniqueCode = Math.floor((Math.random() * 9000) + 1000);
+            if(!uniqueUserId) {
+                await verification_code.create({
+                    user_id: findUser.id,
+                    code: uniqueCode
+                })
+            } else {
+                await verification_code.update({
+                    code: uniqueCode
+                }, {
+                    where: {
+                        user_id: findUser.id,
+                    }
+                })
+            }
+            return success({UniqueCode: uniqueCode}, "Verification code successfully generated", 201)(h);
+        }
     } catch (err) {
         // await t.rollback();
         return error({error: err.message})(h);
