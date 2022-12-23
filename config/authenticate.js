@@ -1,5 +1,4 @@
 const Jwt = require('@hapi/jwt');
-const User = require('../models').user;
 
 //generate token
 exports.getJwt = function (user) {

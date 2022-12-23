@@ -2,10 +2,8 @@ const {success, error} = require("../../response/macros.js");
 const bcrypt = require('bcrypt');
 const {getJwt} = require('../../config/authenticate');
 
-
 //models
 const { User } = require('../../models');
-
 
 //login with email & password, returns user details and json web token
 exports.jwt_login = async (request, h) => {

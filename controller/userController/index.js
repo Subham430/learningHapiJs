@@ -2,10 +2,8 @@ const {success, error} = require("../../response/macros.js");
 const bcrypt = require('bcrypt');
 // const sequelize = require('sequelize');
 
-
 //models
 const { User } = require('../../models');
-
 
 exports.register = async (request, h) => {
     // const t = await sequelize.transaction();
