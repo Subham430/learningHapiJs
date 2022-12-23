@@ -1,4 +1,4 @@
-const { jwt_login } = require('../controller/authController');
+const { jwt_login, jwt_logout } = require('../controller/authController');
 const Joi = require('joi');
 const validationError = require('../helper/validationError');
 
@@ -26,6 +26,17 @@ const router = [
                 }),
                 failAction: validationError
             }
+        }
+    },
+    {
+        method: 'GET',
+        path: '/logout',
+        options: {
+            auth: 'jwt',
+            handler: jwt_logout,
+            description: "logout api",
+            notes: 'logout api',
+            tags: ['auth']
         }
     },
 ];

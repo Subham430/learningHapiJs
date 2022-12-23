@@ -2,8 +2,11 @@
 
 const server = require('./config/server');
 const baseRouter = require('./routes');
+const { addJwtAuth } = require('./config/authenticate')
 
 const init = async () => {
+    
+    await addJwtAuth(server);
 
     server.route({
         method: 'GET',

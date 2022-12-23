@@ -38,3 +38,14 @@ exports.register = async (request, h) => {
     }
 };
 
+exports.all_users_details = async (request, h) => {
+    // const t = await sequelize.transaction();
+    try {
+        const user_details = await User.findAll();
+          
+        return success({user: user_details}, "all users details fetched successfully", 200)(h);
+    } catch (err) {
+        // await t.rollback();
+        return error({error: err.message})(h);
+    }
+};

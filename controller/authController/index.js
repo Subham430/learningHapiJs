@@ -1,6 +1,7 @@
 const {success, error} = require("../../response/macros.js");
 const bcrypt = require('bcrypt');
 const {getJwt} = require('../../config/authenticate');
+const Jwt = require('@hapi/jwt');
 
 //models
 const { User } = require('../../models');
@@ -22,6 +23,14 @@ exports.jwt_login = async (request, h) => {
             return success({token, user})(h);
         }
         return success({error: 'Wrong password'},"password did not match", 401)(h);
+    } catch (err) {
+        return error({error: err.message})(h);
+    }
+};
+
+exports.jwt_logout = async (request, h) => {
+    try {
+        return success({logout: 'logout successfully'},"logout successfully", 200)(h);
     } catch (err) {
         return error({error: err.message})(h);
     }

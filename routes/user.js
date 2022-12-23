@@ -1,4 +1,4 @@
-const { register } = require('../controller/userController');
+const { register, all_users_details } = require('../controller/userController');
 const validationError = require('../helper/validationError');
 const { registerValidation } = require('../request/userValidation/userRegisterValidation');
 
@@ -17,7 +17,17 @@ const router = [
                 failAction: validationError
             }
         }
-    }, 
+    }, {
+        method: 'GET',
+        path: '/details',
+        options: {
+            auth: 'jwt',
+            handler: all_users_details,
+            description: "all user details api",
+            notes: 'all user details api',
+            tags: ['auth']
+        }
+    },
 ];
 
 module.exports = router;
