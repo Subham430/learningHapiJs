@@ -50,6 +50,19 @@ exports.all_users_details = async (request, h) => {
     }
 };
 
+function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function deleteUniqueCode(userId) {
+    await timeout(30000);
+    await verification_code.destroy({
+        where: {
+            user_id: userId,
+        }
+      });
+}
+
 exports.forgot_password = async (request, h) => {
     // const t = await sequelize.transaction();
     try {
@@ -85,6 +98,7 @@ exports.forgot_password = async (request, h) => {
                     }
                 })
             }
+            deleteUniqueCode(findUser.id)
             return success({UniqueCode: uniqueCode}, "Verification code successfully generated", 201)(h);
         }
     } catch (err) {
