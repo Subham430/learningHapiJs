@@ -55,7 +55,7 @@ function timeout(ms) {
 }
 
 async function deleteUniqueCode(userId) {
-    await timeout(30000);
+    await timeout(60000);
     await verification_code.destroy({
         where: {
             user_id: userId,
@@ -100,6 +100,47 @@ exports.forgot_password = async (request, h) => {
             }
             deleteUniqueCode(findUser.id)
             return success({UniqueCode: uniqueCode}, "Verification code successfully generated", 201)(h);
+        }
+    } catch (err) {
+        // await t.rollback();
+        return error({error: err.message})(h);
+    }
+};
+
+exports.reset_password = async (request, h) => {
+    // const t = await sequelize.transaction();
+    try {
+        const payload = request.payload;
+        const salt = await bcrypt.genSalt(10);
+        const HashedPassword = await bcrypt.hash(payload.password, salt);
+        const findUser=await User.findOne({
+            where: {
+                email: payload.email,
+            }
+        });
+
+        if (!findUser){
+            return error({error:"email not found"}, "Insert an already registered Email", 422)(h)
+        } else {
+            const findCode=await verification_code.findOne({
+                where: {
+                    user_id: findUser.id,
+                    code: payload.code,
+                }
+            });
+
+            if (!findCode){
+                return error({error:"code not found"}, "Insert a valid code", 422)(h)
+            } else {
+                await User.update({
+                    password: HashedPassword,
+                }, {
+                    where: {
+                        id: findUser.id,
+                    }
+                })
+                return success("Password updated successfully", 201)(h);
+            }
         }
     } catch (err) {
         // await t.rollback();
