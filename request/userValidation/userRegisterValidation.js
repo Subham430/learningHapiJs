@@ -42,6 +42,36 @@ const registerValidation = Joi.object({
     
 });
 
+const forgotPasswordValidation = Joi.object({
+    email: Joi.string()
+        .required()
+        .email({ tlds: { allow: false } })
+        .description('valid email of user'),
+    
+});
+
+const resetPasswordValidation = Joi.object({
+    email: Joi.string()
+        .required()
+        .email({ tlds: { allow: false } })
+        .description('valid email of user'),
+    password: Joi.string()
+        .required()
+        .min(8)
+        .max(20)
+        .description('password of user'),
+    password_confirmation: Joi.any()
+        .valid(Joi.ref('password'))
+        .required()
+        .description('Confirm password does not match'),
+    code: Joi.string()
+        .required()
+        .description('verification code'),
+    
+});
+
 module.exports = {
-    registerValidation
+    registerValidation,
+    forgotPasswordValidation,
+    resetPasswordValidation
 }

@@ -1,6 +1,6 @@
 const { register, all_users_details, forgot_password, reset_password } = require('../controller/userController');
 const validationError = require('../helper/validationError');
-const { registerValidation } = require('../request/userValidation/userRegisterValidation');
+const { registerValidation, forgotPasswordValidation, resetPasswordValidation } = require('../request/userValidation/userRegisterValidation');
 
 const router = [
     {
@@ -35,7 +35,11 @@ const router = [
             handler: forgot_password,
             description: "forgot password enter email",
             notes: 'forgot password enter email',
-            tags: ['auth']
+            tags: ['auth'],
+            validate: {
+                payload: forgotPasswordValidation,
+                failAction: validationError
+            }
         }
     },
     {
@@ -46,7 +50,11 @@ const router = [
             handler: reset_password,
             description: "reset password enter email and verification code",
             notes: 'reset password enter email and verification code',
-            tags: ['auth']
+            tags: ['auth'],
+            validate: {
+                payload: resetPasswordValidation,
+                failAction: validationError
+            }
         }
     },
 ];
