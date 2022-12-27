@@ -1,6 +1,6 @@
 const { register, all_users_details, forgot_password, reset_password } = require('../controller/userController');
 const validationError = require('../helper/validationError');
-const { registerValidation, forgotPasswordValidation, resetPasswordValidation } = require('../request/userValidation/userRegisterValidation');
+const { registerValidation, forgotPasswordValidation, resetPasswordValidation } = require('../request/userValidation');
 
 const router = [
     {
