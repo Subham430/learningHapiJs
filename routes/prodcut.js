@@ -1,6 +1,6 @@
 const { store, all_products_details } = require('../controller/productController');
 const validationError = require('../helper/validationError');
-const { productStoreValidation } = require('../request/productValidation/productValidation');
+const { productStoreValidation } = require('../request/productValidation');
 
 const router = [
     {
