@@ -1,4 +1,4 @@
-const { store, all_products_details, update } = require('../controller/productController');
+const { store, all_products_details, update, deletes } = require('../controller/productController');
 const validationError = require('../helper/validationError');
 const { productStoreValidation } = require('../request/productValidation');
 const Joi = require('joi');
@@ -42,6 +42,22 @@ const router = [
                     product_id: Joi.number().min(1)
                 }),
                 payload: productStoreValidation,
+                failAction: validationError
+            }
+        }
+    }, {
+        method: 'DELETE',
+        path: '/delete/{product_id}',
+        options: {
+            auth: 'jwt',
+            handler: deletes,
+            description: "delete product api",
+            notes: 'delete product api',
+            tags: ['products'],
+            validate: {
+                params: Joi.object({
+                    product_id: Joi.number().min(1)
+                }),
                 failAction: validationError
             }
         }
