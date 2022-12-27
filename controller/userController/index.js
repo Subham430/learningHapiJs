@@ -51,6 +51,31 @@ exports.all_users_details = async (request, h) => {
     }
 };
 
+exports.update_profile = async (request, h) => {
+    try {
+        const payload = request.payload;
+        const salt = await bcrypt.genSalt(10);
+        const HashedPassword = await bcrypt.hash(payload.password, salt);
+
+        const user = await User.update({
+            firstName: payload.first_name,
+            lastName: payload.last_name,
+            password: HashedPassword,
+        },
+        {
+            where: {
+                id: request.auth.credentials.user.id,
+            }
+        }
+        );
+        // await t.commit();
+        return success("User updated successfully", 201)(h);
+    } catch (err) {
+        // await t.rollback();
+        return error({error: err.message})(h);
+    }
+}
+
 function timeout(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }

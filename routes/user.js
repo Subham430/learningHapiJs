@@ -1,6 +1,6 @@
-const { register, all_users_details, forgot_password, reset_password } = require('../controller/userController');
+const { register, all_users_details, forgot_password, reset_password, update_profile } = require('../controller/userController');
 const validationError = require('../helper/validationError');
-const { registerValidation, forgotPasswordValidation, resetPasswordValidation } = require('../request/userValidation');
+const { registerValidation, forgotPasswordValidation, resetPasswordValidation, updateProfileValidation } = require('../request/userValidation');
 
 const router = [
     {
@@ -56,6 +56,21 @@ const router = [
                 failAction: validationError
             }
         }
+    },
+    {
+        method: 'PUT',
+        path: '/updateProfile',
+        options: {
+            auth: 'jwt',
+            handler: update_profile,
+            description: "update user profile",
+            notes: 'update user profile',
+            tags: ['auth'],
+            validate: {
+                payload: updateProfileValidation,
+                failAction: validationError
+            }
+        },
     },
 ];
 
