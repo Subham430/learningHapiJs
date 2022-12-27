@@ -1,6 +1,7 @@
-const { store, all_products_details } = require('../controller/productController');
+const { store, all_products_details, update } = require('../controller/productController');
 const validationError = require('../helper/validationError');
 const { productStoreValidation } = require('../request/productValidation');
+const Joi = require('joi');
 
 const router = [
     {
@@ -29,7 +30,7 @@ const router = [
         }
     }, {
         method: 'PUT',
-        path: '/edit',
+        path: '/edit/{product_id}',
         options: {
             auth: 'jwt',
             handler: update,
@@ -37,6 +38,9 @@ const router = [
             notes: 'update product api',
             tags: ['products'],
             validate: {
+                params: Joi.object({
+                    product_id: Joi.number().min(1)
+                }),
                 payload: productStoreValidation,
                 failAction: validationError
             }
