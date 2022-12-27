@@ -27,21 +27,22 @@ const router = [
                 failAction: validationError
             }
         }
-    }, {
-        method: 'PUT',
-        path: '/edit',
-        options: {
-            auth: 'jwt',
-            handler: update,
-            description: "update product api",
-            notes: 'update product api',
-            tags: ['products'],
-            validate: {
-                payload: productStoreValidation,
-                failAction: validationError
-            }
-        }
     }, 
+    // {
+    //     method: 'PUT',
+    //     path: '/edit',
+    //     options: {
+    //         auth: 'jwt',
+    //         handler: update,
+    //         description: "update product api",
+    //         notes: 'update product api',
+    //         tags: ['products'],
+    //         validate: {
+    //             payload: productStoreValidation,
+    //             failAction: validationError
+    //         }
+    //     }
+    // }, 
 ];
 
 module.exports = router;
