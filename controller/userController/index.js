@@ -5,7 +5,6 @@ const randtoken = require('rand-token');
 
 //models
 const { User, verification_code } = require('../../models');
-const user = require("../../models/user.js");
 
 exports.register = async (request, h) => {
     // const t = await sequelize.transaction();
