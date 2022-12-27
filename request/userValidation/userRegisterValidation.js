@@ -4,6 +4,7 @@ const registerValidation = Joi.object({
     first_name: Joi.string()
         .alphanum()
         .min(3)
+        .empty()
         .max(30)
         .required()
         .messages({
