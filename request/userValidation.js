@@ -80,6 +80,10 @@ const updateProfileValidation = Joi.object({
     password_confirmation: Joi.any()
         .valid(Joi.ref('password'))
         .description('Confirm password does not match'),
+    role: Joi.string()
+        .min(3)
+        .max(20)
+        .description('role of user'),
     
 });
 

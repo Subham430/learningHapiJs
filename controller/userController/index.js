@@ -57,20 +57,43 @@ exports.all_users_details = async (request, h) => {
 exports.update_profile = async (request, h) => {
     try {
         const payload = request.payload;
-        const salt = await bcrypt.genSalt(10);
-        const HashedPassword = await bcrypt.hash(payload.password, salt);
 
-        const user = await User.update({
-            firstName: payload.first_name,
-            lastName: payload.last_name,
-            password: HashedPassword,
-        },
-        {
-            where: {
-                id: request.auth.credentials.user.id,
+        if(request.params.user_id) {
+            await admin_permission(request);
+            const uniqueUser=await User.findOne({
+                where: {
+                    id: request.params.user_id,
+                }
+            });
+
+            if (!uniqueUser){
+                return error({error:"user not found"}, "User Not Found", 422)(h)
             }
+
+            await User.update({
+                role: payload.role,
+            },
+            {
+                where: {
+                    id: request.params.user_id,
+                }
+            }
+            );
+        } else {
+            const salt = await bcrypt.genSalt(10);
+            const HashedPassword = await bcrypt.hash(payload.password, salt);
+            await User.update({
+                firstName: payload.first_name,
+                lastName: payload.last_name,
+                password: HashedPassword,
+            },
+            {
+                where: {
+                    id: request.auth.credentials.user.id,
+                }
+            }
+            );
         }
-        );
         // await t.commit();
         return success("User updated successfully", 201)(h);
     } catch (err) {

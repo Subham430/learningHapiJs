@@ -59,7 +59,7 @@ const router = [
     },
     {
         method: 'PUT',
-        path: '/updateProfile',
+        path: '/updateProfile/{user_id?}',
         options: {
             auth: 'jwt',
             handler: update_profile,
