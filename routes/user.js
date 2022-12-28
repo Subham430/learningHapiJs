@@ -7,7 +7,7 @@ const router = [
         method: 'POST',
         path: '/register',
         options: {
-            auth: false,
+            auth: 'jwt',
             handler: register,
             description: "register  api",
             notes: 'register  api',
