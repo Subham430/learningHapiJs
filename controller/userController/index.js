@@ -28,6 +28,7 @@ exports.register = async (request, h) => {
             lastName: payload.last_name,
             email: payload.email,
             password: HashedPassword,
+            role: payload.role
         },
             // {transaction:t}
         );
