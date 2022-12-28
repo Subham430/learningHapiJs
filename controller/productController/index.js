@@ -37,7 +37,20 @@ exports.update = async (request, h) => {
             price: request.payload.price
          });
 
-        return success({products: product_details}, "all product details fetched successfully", 200)(h);
+        return success({products: product_details}, "product updated successfully", 200)(h);
+    } catch (err) {
+        return error({error: err.message})(h);
+    }
+};
+
+exports.deletes = async (request, h) => {
+    try {
+        const product_details = await Product.findOne({ where: { id: request.params.product_id } });
+        if(!product_details)
+            return error({error: "product doest not exists"})(h);
+        product_details.destroy();
+
+        return success({products: product_details}, "product deleted successfully", 200)(h);
     } catch (err) {
         return error({error: err.message})(h);
     }
