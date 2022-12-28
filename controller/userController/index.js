@@ -2,6 +2,7 @@ const {success, error} = require("../../response/macros.js");
 const bcrypt = require('bcrypt');
 const { transport } = require('../../config/mail.js')
 const randtoken = require('rand-token');
+const { admin_permission } = require('../../helper/adminPermission.js');
 
 //models
 const { User, verification_code } = require('../../models');
@@ -9,6 +10,7 @@ const { User, verification_code } = require('../../models');
 exports.register = async (request, h) => {
     // const t = await sequelize.transaction();
     try {
+        await admin_permission(request);
         const payload = request.payload;
         const salt = await bcrypt.genSalt(10);
         const HashedPassword = await bcrypt.hash(payload.password, salt);
