@@ -40,6 +40,11 @@ const registerValidation = Joi.object({
         .valid(Joi.ref('password'))
         .required()
         .description('Confirm password does not match'),
+    role: Joi.string()
+        .required()
+        .min(3)
+        .max(20)
+        .description('role of user'),
     
 });
 
