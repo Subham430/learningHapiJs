@@ -1,10 +1,18 @@
 const {success, error} = require("../../response/macros.js");
 
 //models
-const { address } = require('../../models');
+const { address, User } = require('../../models');
 
 exports.store = async (request, h) => {
     try {
+        const user = await User.findOne({
+            where: {
+                id: request.payload.user_id            }
+        });
+
+        if(!user)
+            return error({error: "user not found"}, "user not found", 404)(h);
+
         const user_address = await address.create({
             user_id: request.payload.user_id,
             address_1: request.payload.address_1,

@@ -15,7 +15,7 @@ exports.register = async (request, h) => {
         const salt = await bcrypt.genSalt(10);
         const HashedPassword = await bcrypt.hash(payload.password, salt);
 
-        const uniqueUser=await User.findOne({
+        const uniqueUser = await User.findOne({
             where: {
                 email: payload.email,
             }
