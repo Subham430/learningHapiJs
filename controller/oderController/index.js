@@ -69,16 +69,12 @@ exports.deletes = async (request, h) => {
         const delete_order = await order.findOne({ where: { id: request.params.order_id } });
         if(!delete_order)
             return error({error: "order doest not exists"})(h);
-        const order_products = order_product.findAll({ 
-            where: { 
-                order_id: request.params.order_id,
-                user_id: request.auth.credentials.user.id
-        }});
-
-        order_products.destroy({where:{}});
-        delete_order.destroy();
-
-        return success({address_deleted: address_deleted}, "order deleted successfully", 200)(h);
+        await order_product.destroy({where:{
+            order_id: request.params.order_id,
+            user_id: request.auth.credentials.user.id
+        }, truncate: true});
+        await delete_order.destroy();
+        return success({delete_order: delete_order}, "order deleted successfully", 200)(h);
     } catch (err) {
         return error({error: err.message})(h);
     }
