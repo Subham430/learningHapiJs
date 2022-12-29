@@ -2,16 +2,12 @@ const {success, error} = require("../../response/macros.js");
 
 //models
 const { order, order_product, address, Product } = require('../../models');
-const { FLOAT } = require("sequelize");
 
 exports.store = async (request, h) => {
     try {
-        let new_address, grand_total=0;
+        let new_address, grand_total=0, prod_length = request.payload.products.length;
         if(request.payload.address)
         {
-            console.log(request.payload.address.id)
-            console.log('address id ')
-
             const isAddressExists = await address.findOne({ where:{
                 id: request.payload.address.id
             }});
@@ -36,9 +32,7 @@ exports.store = async (request, h) => {
             address_id: request.payload.address_new ? new_address.id : request.payload.address.id
         });
 
-        for( product_details in request.payload.products) {  
-            console.log(request.payload.products[product_details].id)
-            console.log('product id')
+        request.payload.products.forEach(async product_details => {
             const isProductExists = await Product.findOne({ where:{
                 id: product_details.id
             }})
@@ -52,25 +46,17 @@ exports.store = async (request, h) => {
                 price: isProductExists.price * product_details.quantity,
                 quantity: product_details.quantity
             });
-            console.log(grand_total)
-            console.log(isProductExists.price)
-            console.log(product_details.quantity)
-            console.log(isProductExists.price * product_details.quantity)
-            console.log(grand_total + isProductExists.price * product_details.quantity)
-            console.log('========1=======')
             grand_total = grand_total + isProductExists.price * product_details.quantity
-            console.log(grand_total)
-            console.log('========1=======')
 
+            prod_length -= 1;
+            if ( prod_length === 0)
+                await order.update({ grand_total: grand_total },
+                    { where: {             
+                        user_id: request.auth.credentials.user.id,
+                        id : order_details.id
+                    } } );
         }
-        console.log(grand_total)
-        console.log('222222222222222')
-
-        await order.update({ grand_total: grand_total },
-        { where: {             
-            user_id: request.auth.credentials.user.id,
-            id : order_details.id
-        } } );
+        );
 
         return success({order: order_details}, "order created successfully ", 201)(h);
     } catch (err) {
