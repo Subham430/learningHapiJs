@@ -1,4 +1,5 @@
 const {success, error} = require("../../response/macros.js");
+const { transport } = require('../../config/mail.js')
 
 //models
 const { order, order_product, address, Product } = require('../../models');
@@ -49,12 +50,21 @@ exports.store = async (request, h) => {
             grand_total = grand_total + isProductExists.price * product_details.quantity
 
             prod_length -= 1;
-            if ( prod_length === 0)
+            if ( prod_length === 0){
                 await order.update({ grand_total: grand_total },
-                    { where: {             
-                        user_id: request.auth.credentials.user.id,
-                        id : order_details.id
-                    } } );
+                { where: {             
+                    user_id: request.auth.credentials.user.id,
+                    id : order_details.id
+                } } );
+
+                const mailOptions = {
+                    from: 'tutsmake@gmail.com',
+                    to: request.auth.credentials.user.email,
+                    subject: 'Order Placed - Tutsmake.com',
+                    html: '<p>You order has been successfully placed. Product name "' + isProductExists.product_name + '" Quantity "' + product_details.quantity + '" Unit Price "' + isProductExists.price + '" total amount payable "' + grand_total+'" </p>'
+                    };
+                transport.sendMail(mailOptions);
+            }
         }
         );
 
