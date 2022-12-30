@@ -1,5 +1,6 @@
 const {success, error} = require("../../response/macros.js");
 const { transport } = require('../../config/mail.js')
+const { createInvoice } = require('../../config/invoice.js')
 
 //models
 const { order, order_product, address, Product } = require('../../models');
@@ -57,11 +58,27 @@ exports.store = async (request, h) => {
                     id : order_details.id
                 } } );
 
+                const invoice = {
+                    shipping: {
+                        name: request.auth.credentials.user.name,
+                        address: '1234 Main Street',
+                        city: 'San Francisco',
+                        state: 'CA',
+                        country: 'US',
+                        postal_code: 94111,
+                    },
+                    items: request.payload.products,
+                    subtotal: grand_total,
+                    paid: 0,
+                    invoice_nr: 1234,
+                };
+                createInvoice(invoice, 'invoice.pdf');
+
                 const mailOptions = {
                     from: 'tutsmake@gmail.com',
                     to: request.auth.credentials.user.email,
                     subject: 'Order Placed - Tutsmake.com',
-                    html: '<p>You order has been successfully placed. Product name "' + isProductExists.product_name + '" Quantity "' + product_details.quantity + '" Unit Price "' + isProductExists.price + '" total amount payable "' + grand_total+'" </p>'
+                    html: '<p>You order has been successfully placed. Product name "' + isProductExists.product_name + '" Quantity "' + product_details.quantity + '" Unit Price "' + isProductExists.price + '" total amount payable "' + grand_total+'" <a href="http://localhost:3000/invoice.pdf" </p>'
                     };
                 transport.sendMail(mailOptions);
             }
