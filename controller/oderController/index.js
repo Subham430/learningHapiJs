@@ -78,8 +78,14 @@ exports.store = async (request, h) => {
                     from: 'tutsmake@gmail.com',
                     to: request.auth.credentials.user.email,
                     subject: 'Order Placed - Tutsmake.com',
-                    html: '<p>You order has been successfully placed. Product name "' + isProductExists.product_name + '" Quantity "' + product_details.quantity + '" Unit Price "' + isProductExists.price + '" total amount payable "' + grand_total+'" <a href="http://localhost:3000/invoice.pdf" </p>'
-                    };
+                    html: '<p>You order has been successfully placed. Product name "' + isProductExists.product_name + '" Quantity "' + product_details.quantity + '" Unit Price "' + isProductExists.price + '" total amount payable "' + grand_total+'" <a href="http://localhost:3000/invoice.pdf" </p>',
+                    attachments: [
+                    {   // file on disk as an attachment
+                        filename: 'invoice.pdf',
+                        path: './invoice.pdf' // stream this file
+                    },
+                    ]
+                };
                 transport.sendMail(mailOptions);
             }
         }
