@@ -18,6 +18,15 @@ const init = async () => {
                 title: 'Test API Documentation',
                 version: Pack.version,
             },
+        securityDefinitions: {
+            jwt: {
+                type: 'apiKey',
+                name: 'Authorization',
+                in: 'header'
+            }
+        },
+        security: [{ jwt: [] }],
+        schemes: ['http','https']
         };
 
     await addJwtAuth(server);
