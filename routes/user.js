@@ -11,7 +11,7 @@ const router = [
             handler: register,
             description: "register  api",
             notes: 'register  api',
-            tags: ['auth'],
+            tags: ['api', 'user'],
             validate: {
                 payload: registerValidation,
                 failAction: validationError
@@ -25,7 +25,7 @@ const router = [
             handler: all_users_details,
             description: "all user details api",
             notes: 'all user details api',
-            tags: ['auth']
+            tags: ['api', 'user']
         }
     }, {
         method: 'POST',
@@ -35,7 +35,7 @@ const router = [
             handler: forgot_password,
             description: "forgot password enter email",
             notes: 'forgot password enter email',
-            tags: ['auth'],
+            tags: ['api', 'user'],
             validate: {
                 payload: forgotPasswordValidation,
                 failAction: validationError
@@ -50,7 +50,7 @@ const router = [
             handler: reset_password,
             description: "reset password enter email and verification code",
             notes: 'reset password enter email and verification code',
-            tags: ['auth'],
+            tags: ['api', 'user'],
             validate: {
                 payload: resetPasswordValidation,
                 failAction: validationError
@@ -65,7 +65,7 @@ const router = [
             handler: update_profile,
             description: "update user profile",
             notes: 'update user profile',
-            tags: ['auth'],
+            tags: ['api', 'user'],
             validate: {
                 payload: updateProfileValidation,
                 failAction: validationError

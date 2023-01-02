@@ -12,7 +12,7 @@ const router = [
             handler: all_addresses,
             description: "all address details api",
             notes: 'all address details api',
-            tags: ['address']
+            tags: ['api', 'address']
         }
     }, {
         method: 'POST',
@@ -22,7 +22,7 @@ const router = [
             handler: store,
             description: "store address api",
             notes: 'store address api',
-            tags: ['address'],
+            tags: ['api', 'address'],
             validate: {
                 payload: addressValidation,
                 failAction: validationError
@@ -36,7 +36,7 @@ const router = [
             handler: update_address,
             description: "update address api",
             notes: 'update address api',
-            tags: ['address'],
+            tags: ['api', 'address'],
             validate: {
                 params: Joi.object({
                     address_id: Joi.number().min(1)
@@ -53,7 +53,7 @@ const router = [
             handler: deletes,
             description: "delete address api",
             notes: 'delete address api',
-            tags: ['address'],
+            tags: ['api', 'address'],
             validate: {
                 params: Joi.object({
                     address_id: Joi.number().min(1)

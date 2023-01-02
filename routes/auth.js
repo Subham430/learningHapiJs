@@ -11,7 +11,7 @@ const router = [
             handler: jwt_login,
             description: "login api",
             notes: 'login api',
-            tags: ['auth'],
+            tags: ['api', 'auth'],
             validate: {
                 payload: Joi.object({
                     email: Joi.string()
@@ -36,7 +36,7 @@ const router = [
             handler: jwt_logout,
             description: "logout api",
             notes: 'logout api',
-            tags: ['auth']
+            tags: ['api', 'auth']
         }
     },
 ];

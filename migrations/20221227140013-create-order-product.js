@@ -15,8 +15,8 @@ module.exports = {
       product_id: {
         type: Sequelize.INTEGER
       },
-      order_number: {
-        type: Sequelize.STRING
+      order_id: {
+        type: Sequelize.INTEGER
       },
       price: {
         type: Sequelize.DECIMAL
