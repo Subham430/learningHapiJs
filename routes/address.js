@@ -12,7 +12,13 @@ const router = [
             handler: all_addresses,
             description: "all address details api",
             notes: 'all address details api',
-            tags: ['api', 'address']
+            tags: ['api', 'address'],
+            validate: {
+                params: Joi.object({
+                    address_id: Joi.number().min(1)
+                }),
+                failAction: validationError
+            }
         }
     }, {
         method: 'POST',
