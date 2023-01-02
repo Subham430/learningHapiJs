@@ -12,7 +12,7 @@ const router = [
             handler: all_products_details,
             description: "all products details api",
             notes: 'all products details api',
-            tags: ['products']
+            tags: ['api', 'products']
         }
     }, {
         method: 'POST',
@@ -22,7 +22,7 @@ const router = [
             handler: store,
             description: "store product api",
             notes: 'store product api',
-            tags: ['products'],
+            tags: ['api', 'products'],
             validate: {
                 payload: productStoreValidation,
                 failAction: validationError
@@ -36,7 +36,7 @@ const router = [
             handler: update,
             description: "update product api",
             notes: 'update product api',
-            tags: ['products'],
+            tags: ['api', 'products'],
             validate: {
                 params: Joi.object({
                     product_id: Joi.number().min(1)
@@ -53,7 +53,7 @@ const router = [
             handler: deletes,
             description: "delete product api",
             notes: 'delete product api',
-            tags: ['products'],
+            tags: ['api', 'products'],
             validate: {
                 params: Joi.object({
                     product_id: Joi.number().min(1)

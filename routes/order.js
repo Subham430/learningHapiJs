@@ -12,7 +12,7 @@ const router = [
             handler: store,
             description: "store order api",
             notes: 'store order api',
-            tags: ['order'],
+            tags: ['api', 'order'],
             // validate: {
             //     payload: ,
             //     failAction: validationError
@@ -26,7 +26,7 @@ const router = [
             handler: deletes,
             description: "delete order api",
             notes: 'delete order api',
-            tags: ['order'],
+            tags: ['api', 'order'],
             validate: {
                 params: Joi.object({
                     order_id: Joi.number().min(1)
