@@ -1,12 +1,14 @@
 const {success, error} = require("../../response/macros.js");
 const { transport } = require('../../config/mail.js')
 const { createInvoice } = require('../../config/invoice.js')
+const { admin_permission } = require('../../helper/adminPermission.js');
 
 //models
 const { order, order_product, address, Product } = require('../../models');
 
 exports.order_details = async (request, h) => {
     try {
+        await admin_permission(request);
         if(request.params.order_id){
             const order_details = await order.findOne({            
                 where: {id: request.params.order_id},
