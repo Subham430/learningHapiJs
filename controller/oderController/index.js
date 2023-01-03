@@ -5,6 +5,22 @@ const { createInvoice } = require('../../config/invoice.js')
 //models
 const { order, order_product, address, Product } = require('../../models');
 
+exports.order_details = async (request, h) => {
+    try {
+        if(request.params.order_id){
+            const order_details = await order.findOne({            
+                where: {id: request.params.order_id},
+            });
+            return success({order_details: order_details}, "order_details fetched successfully", 200)(h);
+        }
+        const orders = await order.findAll();
+        return success({orders_list: orders}, "all order's list fetched successfully", 200)(h);
+ 
+    } catch (err) {
+        return error({error: err.message})(h);
+    }
+};
+
 exports.store = async (request, h) => {
     try {
         let new_address, grand_total=0, prod_length = request.payload.products.length;
