@@ -1,6 +1,6 @@
 const { deletes, store } = require('../controller/oderController/index');
 const validationError = require('../helper/validationError');
-// const {  } = require('../request/');
+const { orderValidation } = require('../request/orderValidation');
 const Joi = require('joi');
 
 const router = [
@@ -13,10 +13,10 @@ const router = [
             description: "store order api",
             notes: 'store order api',
             tags: ['api', 'order'],
-            // validate: {
-            //     payload: ,
-            //     failAction: validationError
-            // }
+            validate: {
+                payload: orderValidation,
+                failAction: validationError
+            }
         }
     }, {
         method: 'DELETE',
