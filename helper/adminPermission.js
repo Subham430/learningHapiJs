@@ -1,5 +1,3 @@
-const {success, error} = require("../response/macros");
- 
 exports.admin_permission = async (request) => {
     try {
         if (request.auth.credentials.user.role !== "admin") {
